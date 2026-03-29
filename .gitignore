@@ -9,6 +9,8 @@
 # Test coverage artifacts
 /coverage/
 /coverage-html/
+/coverage.xml
+/coverage.txt
 /tests/reports/
 
 # Editor/OS noise
