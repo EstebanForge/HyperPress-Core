@@ -26,19 +26,19 @@ class ThemeTest extends TestCase
 
     public function testHyperPressDirectory()
     {
-        $this->assertStringContainsString('api-for-htmx', HYPERPRESS_DIR);
+        $this->assertStringContainsString('HyperPress-Core', HYPERPRESS_DIR);
         $this->assertTrue(is_dir(HYPERPRESS_DIR));
     }
 
     public function testHyperPressUrl()
     {
-        $this->assertEquals('http://localhost/wp-content/plugins/api-for-htmx', HYPERPRESS_URL);
-        $this->assertStringEndsWith('api-for-htmx', HYPERPRESS_URL);
+        $this->assertEquals('http://localhost/wp-content/plugins/HyperPress-Core', HYPERPRESS_URL);
+        $this->assertStringEndsWith('HyperPress-Core', HYPERPRESS_URL);
     }
 
     public function testHyperPressAssetsUrl()
     {
-        $this->assertEquals('http://localhost/wp-content/plugins/api-for-htmx/assets/', HYPERPRESS_ASSETS_URL);
+        $this->assertEquals('http://localhost/wp-content/plugins/HyperPress-Core/assets/', HYPERPRESS_ASSETS_URL);
         $this->assertStringEndsWith('assets/', HYPERPRESS_ASSETS_URL);
     }
 
@@ -57,7 +57,7 @@ class ThemeTest extends TestCase
         $this->assertTrue(function_exists('get_option'));
 
         // Test mocked functions work
-        $this->assertStringContainsString('api-for-htmx', plugins_url());
+        $this->assertStringContainsString('HyperPress-Core', plugins_url());
         $this->assertStringEndsWith('test', plugins_url('test'));
         $this->assertTrue(is_admin());
         $this->assertTrue(add_action('init', function() { return true; }));

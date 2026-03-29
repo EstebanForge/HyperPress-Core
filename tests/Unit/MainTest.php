@@ -13,10 +13,16 @@ class MainTest extends TestCase
 {
     public function testPluginInitialization()
     {
-        // Test that the plugin main file exists
-        $pluginFile = HYPERPRESS_DIR . '/api-for-htmx.php';
-        $this->assertFileExists($pluginFile);
-        $this->assertFileIsReadable($pluginFile);
+        // In core library mode, bootstrap.php is the required entry point.
+        $entryCandidates = [
+            HYPERPRESS_DIR . '/bootstrap.php',
+            HYPERPRESS_DIR . '/hyperpress.php',
+            HYPERPRESS_DIR . '/api-for-htmx.php',
+        ];
+
+        $existing = array_filter($entryCandidates, static fn (string $file): bool => file_exists($file));
+        $this->assertNotEmpty($existing);
+        $this->assertTrue(is_readable(reset($existing)));
     }
 
     public function testBootstrapFileExists()
@@ -84,9 +90,9 @@ class MainTest extends TestCase
         $this->assertArrayHasKey('assets_url', $config);
 
         $this->assertSame(\hyperpress_test_get_plugin_version(), $config['version']);
-        $this->assertStringContainsString('api-for-htmx', $config['dir']);
-        $this->assertEquals('http://localhost/wp-content/plugins/api-for-htmx', $config['url']);
-        $this->assertEquals('http://localhost/wp-content/plugins/api-for-htmx/assets/', $config['assets_url']);
+        $this->assertStringContainsString('HyperPress-Core', $config['dir']);
+        $this->assertEquals('http://localhost/wp-content/plugins/HyperPress-Core', $config['url']);
+        $this->assertEquals('http://localhost/wp-content/plugins/HyperPress-Core/assets/', $config['assets_url']);
     }
 
     public function testAssetEnqueueing()

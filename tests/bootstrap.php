@@ -9,7 +9,9 @@ declare(strict_types=1);
  */
 
 // Define testing mode constant before any autoloading
-define('HYPERPRESS_TESTING_MODE', true);
+if (!defined('HYPERPRESS_TESTING_MODE')) {
+    define('HYPERPRESS_TESTING_MODE', true);
+}
 
 // Define ABSPATH early for autoloaded files that check it
 if (!defined('ABSPATH')) {
@@ -132,7 +134,7 @@ if (!function_exists('wp_register_style')) {
 
 if (!function_exists('plugins_url')) {
     function plugins_url($path = '', $plugin = '') {
-        $base = 'http://localhost/wp-content/plugins/api-for-htmx';
+        $base = 'http://localhost/wp-content/plugins/HyperPress-Core';
         if ($path === '' || $path === null) {
             return $base;
         }
@@ -142,7 +144,7 @@ if (!function_exists('plugins_url')) {
 
 if (!function_exists('plugin_dir_url')) {
     function plugin_dir_url($file) {
-        return 'http://localhost/wp-content/plugins/api-for-htmx/';
+        return 'http://localhost/wp-content/plugins/HyperPress-Core/';
     }
 }
 
@@ -274,7 +276,7 @@ if (!defined('HYPERPRESS_DIR')) {
 }
 
 if (!defined('HYPERPRESS_URL')) {
-    define('HYPERPRESS_URL', 'http://localhost/wp-content/plugins/api-for-htmx');
+    define('HYPERPRESS_URL', 'http://localhost/wp-content/plugins/HyperPress-Core');
 }
 
 if (!defined('HYPERPRESS_ASSETS_URL')) {
