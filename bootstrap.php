@@ -33,10 +33,6 @@ if ($use_local_libs) {
     ];
     foreach ($local_libs as $lib_path) {
         $lib_path = realpath($lib_path) ?: $lib_path;
-        $autoload = $lib_path . '/vendor/autoload.php';
-        if (file_exists($autoload)) {
-            require_once $autoload;
-        }
         $bootstrap = $lib_path . '/bootstrap.php';
         if (file_exists($bootstrap)) {
             require_once $bootstrap;
@@ -45,9 +41,13 @@ if ($use_local_libs) {
 }
 
 // Composer autoloader.
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+// When loaded as a dependency from another package's /vendor tree, avoid loading
+// this package's nested vendor/autoload.php to prevent duplicate Composer loader classes.
+$normalizedDir = str_replace('\\', '/', __DIR__);
+$loadedFromVendorTree = str_contains($normalizedDir, '/vendor/');
+if (!$loadedFromVendorTree && file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
-} else {
+} elseif (!$loadedFromVendorTree) {
     // Display an admin notice if no autoloader is found, but continue so tests can register hooks/candidates.
     add_action('admin_notices', function () {
         echo '<div class="error"><p>' . esc_html__('HyperPress: Composer autoloader not found. Please run "composer install" inside the plugin folder.', 'api-for-htmx') . '</p></div>';

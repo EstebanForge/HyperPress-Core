@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a534dc9e64dcc0e159330a95a912f23",
+    "content-hash": "f3ff0ec87b360ca28c680f03e1b3e195",
     "packages": [
         {
             "name": "estebanforge/hyperblocks",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EstebanForge/HyperBlocks.git",
-                "reference": "727db199861717614adf5c90890a48edec306f68"
+                "reference": "6b6829df2d0f52e56e68a53dc0a8d58e0512948b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EstebanForge/HyperBlocks/zipball/727db199861717614adf5c90890a48edec306f68",
-                "reference": "727db199861717614adf5c90890a48edec306f68",
+                "url": "https://api.github.com/repos/EstebanForge/HyperBlocks/zipball/6b6829df2d0f52e56e68a53dc0a8d58e0512948b",
+                "reference": "6b6829df2d0f52e56e68a53dc0a8d58e0512948b",
                 "shasum": ""
             },
             "require": {
@@ -54,7 +54,7 @@
             },
             "scripts": {
                 "test": [
-                    "php -d pcov.enabled=1 vendor/bin/pest --configuration phpunit.xml --colors=always"
+                    "bash -lc 'if [ ! -f vendor/bin/pest ]; then composer update --no-interaction --no-progress; fi; php -d pcov.enabled=1 vendor/bin/pest --configuration phpunit.xml --colors=always'"
                 ],
                 "test:unit": [
                     "php -d pcov.enabled=1 vendor/bin/pest --configuration phpunit.xml tests/Unit --colors=always"
@@ -104,20 +104,20 @@
                 "source": "https://github.com/EstebanForge/HyperBlocks",
                 "docs": "https://github.com/EstebanForge/HyperBlocks/blob/main/docs/"
             },
-            "time": "2026-03-29T23:10:57+00:00"
+            "time": "2026-03-29T23:32:33+00:00"
         },
         {
             "name": "estebanforge/hyperfields",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EstebanForge/HyperFields.git",
-                "reference": "4305af78942b5a776d750fe70ea17e0f3c46421b"
+                "reference": "c0824ce11b7a65e964361a32e17198f1bde546d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EstebanForge/HyperFields/zipball/4305af78942b5a776d750fe70ea17e0f3c46421b",
-                "reference": "4305af78942b5a776d750fe70ea17e0f3c46421b",
+                "url": "https://api.github.com/repos/EstebanForge/HyperFields/zipball/c0824ce11b7a65e964361a32e17198f1bde546d8",
+                "reference": "c0824ce11b7a65e964361a32e17198f1bde546d8",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +148,7 @@
             },
             "scripts": {
                 "test": [
-                    "php -d pcov.enabled=1 vendor/bin/pest --colors=always"
+                    "bash -lc 'if [ ! -f vendor/bin/pest ]; then composer update --no-interaction --no-progress; fi; php -d pcov.enabled=1 vendor/bin/pest --colors=always'"
                 ],
                 "test:unit": [
                     "php -d pcov.enabled=1 vendor/bin/pest tests/Unit --colors=always"
@@ -207,10 +207,10 @@
             ],
             "description": "HyperFields: A powerful custom field system for WordPress, providing metaboxes, options pages, and conditional logic.",
             "support": {
-                "source": "https://github.com/EstebanForge/HyperFields/tree/1.1.0",
+                "source": "https://github.com/EstebanForge/HyperFields/tree/1.1.1",
                 "issues": "https://github.com/EstebanForge/HyperFields/issues"
             },
-            "time": "2026-03-29T22:51:01+00:00"
+            "time": "2026-03-29T23:31:49+00:00"
         },
         {
             "name": "starfederation/datastar-php",
