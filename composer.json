@@ -20,14 +20,6 @@
     {
       "type": "path",
       "url": "../HyperBlocks"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/EstebanForge/HyperFields.git"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/EstebanForge/HyperBlocks.git"
     }
   ],
   "require": {
