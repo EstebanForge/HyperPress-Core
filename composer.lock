@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68689f44b8aaccc200bf25c21eb6cae3",
+    "content-hash": "77fe4326c56d096ff342eb218d654a20",
     "packages": [
         {
             "name": "estebanforge/hyperblocks",
@@ -108,27 +108,27 @@
         },
         {
             "name": "estebanforge/hyperfields",
-            "version": "1.1.4",
+            "version": "1.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/EstebanForge/HyperFields.git",
-                "reference": "a36b811dbc022c69c4047b0a0cbedc14cfb4f830"
+                "reference": "ffccebe8a09bd9b0e4ca1a54550cfe375cf6c28d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/EstebanForge/HyperFields/zipball/a36b811dbc022c69c4047b0a0cbedc14cfb4f830",
-                "reference": "a36b811dbc022c69c4047b0a0cbedc14cfb4f830",
+                "url": "https://api.github.com/repos/EstebanForge/HyperFields/zipball/ffccebe8a09bd9b0e4ca1a54550cfe375cf6c28d",
+                "reference": "ffccebe8a09bd9b0e4ca1a54550cfe375cf6c28d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1"
+                "php": ">=8.2"
             },
             "require-dev": {
-                "brain/monkey": "^2.6",
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "mockery/mockery": "^1.6",
-                "pestphp/pest": "^4.4",
-                "phpunit/phpunit": "^12.0"
+                "brain/monkey": "^2",
+                "friendsofphp/php-cs-fixer": "^3",
+                "mockery/mockery": "^1",
+                "pestphp/pest": "^4",
+                "phpunit/phpunit": "^12"
             },
             "type": "library",
             "autoload": {
@@ -207,10 +207,10 @@
             ],
             "description": "HyperFields: A powerful custom field system for WordPress, providing metaboxes, options pages, and conditional logic.",
             "support": {
-                "source": "https://github.com/EstebanForge/HyperFields/tree/1.1.4",
+                "source": "https://github.com/EstebanForge/HyperFields/tree/1.1.8",
                 "issues": "https://github.com/EstebanForge/HyperFields/issues"
             },
-            "time": "2026-03-30T00:37:55+00:00"
+            "time": "2026-04-01T00:08:45+00:00"
         },
         {
             "name": "starfederation/datastar-php",
