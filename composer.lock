@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42570bf63a4fd49a294574e26d72fa23",
+    "content-hash": "59925983071ed89588201901ee559a75",
     "packages": [
         {
             "name": "automattic/jetpack-autoloader",
@@ -74,7 +74,7 @@
             "dist": {
                 "type": "path",
                 "url": "../HyperBlocks",
-                "reference": "cf9ae531f5dd67899cc5021a71a47c5b039914f2"
+                "reference": "10c4b361d48f8c4ad3c8afe878cc079569af6d4c"
             },
             "require": {
                 "automattic/jetpack-autoloader": "^2",
@@ -171,7 +171,7 @@
             "dist": {
                 "type": "path",
                 "url": "../HyperFields",
-                "reference": "9a2567c639e682060831e4b322aefd6ed08bca44"
+                "reference": "ce3f0f9afd9a4f3f138b9cc7ffce5fa35eead2fb"
             },
             "require": {
                 "automattic/jetpack-autoloader": "^2",
