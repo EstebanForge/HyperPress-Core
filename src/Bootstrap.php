@@ -55,12 +55,6 @@ final class Bootstrap
         if (defined(__NAMESPACE__ . '\\LOADED')) {
             return;
         }
-        define(__NAMESPACE__ . '\\LOADED', __DIR__);
-
-        if (Config::isInitialized()) {
-            return;
-        }
-
         // Resolve this copy's entry file and base directory. Plugin mode is
         // active when one of the known WordPress entry files exists; otherwise
         // we run as a Composer library and treat bootstrap.php's directory as
@@ -81,6 +75,29 @@ final class Bootstrap
             $plugin_url = isset($args['plugin_url'])
                 ? (string) $args['plugin_url']
                 : plugin_dir_url($plugin_file);
+        }
+
+        // Defer when this copy runs as a Composer library but is not under a
+        // web-reachable WP content root and the caller supplied no explicit
+        // URL. Defining the namespace-scoped LOADED identity here would lock
+        // out a web-reachable copy (e.g. one bundled inside a plugin under
+        // wp-content) and leave Config::$pluginUrl empty, so its frontend
+        // assets (HTMX/Alpine/Datastar) would enqueue broken/empty URLs. The
+        // common trigger is this library installed transitively into a
+        // Bedrock-style root composer vendor, outside the web document root;
+        // a web-reachable copy will run init() and claim the identity instead.
+        // An explicit plugin_url argument overrides the deferral so a consumer
+        // can force a copy the resolver cannot infer. Plugin mode (a real entry
+        // file under wp-content) always resolves a URL via plugin_dir_url()
+        // and never defers. Mirrors HyperFields/HyperBlocks.
+        if ($is_library_mode && !isset($args['plugin_url']) && $plugin_url === '') {
+            return;
+        }
+
+        define(__NAMESPACE__ . '\\LOADED', __DIR__);
+
+        if (Config::isInitialized()) {
+            return;
         }
 
         Config::markInitialized();
@@ -196,12 +213,24 @@ final class Bootstrap
      */
     private static function resolvePluginUrl(string $base_dir): string
     {
+        // Prefer the canonical HyperFields resolver as a class method: it is
+        // available the moment the class is autoloaded, independent of
+        // whether HyperFields' own init() has run yet (init order between the
+        // two libraries is not guaranteed). It returns '' for directories
+        // under no web-accessible WP content root (e.g. a Bedrock root
+        // composer vendor), which is the signal Bootstrap::init() gates on.
+        if (class_exists(\HyperFields\LibraryBootstrap::class)) {
+            return \HyperFields\LibraryBootstrap::resolveContentUrl($base_dir);
+        }
+
+        // Procedural helper equivalent, when only that is loaded.
         if (function_exists('hyperfields_resolve_content_url')) {
             return hyperfields_resolve_content_url($base_dir);
         }
 
-        // Fallback when HyperFields' resolver is not loaded: best-effort via
-        // plugins_url(), correct for plugin-mode-style layout only.
+        // Last-resort fallback via plugins_url(): correct only for a layout
+        // directly under WP_PLUGIN_DIR. It cannot distinguish a non-web-
+        // reachable directory, so it must not be relied upon for the gate.
         if (function_exists('plugins_url')) {
             $resolved = plugins_url('', $base_dir . '/bootstrap.php');
 
