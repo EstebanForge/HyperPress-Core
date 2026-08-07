@@ -164,6 +164,33 @@ class RenderSanitizationTest extends TestCase
     }
 
     /**
+     * Nonces are stripped from the bag passed to templates.
+     */
+    public function testNestedArrayKeysAreSanitizedRecursively(): void
+    {
+        $input = [
+            'filter' => [
+                'Status' => '<script>bad</script>',
+                'Nested' => [
+                    'Deep_Key!' => 'hello',
+                ],
+            ],
+        ];
+
+        $result = $this->sanitizeParams($input);
+
+        $this->assertIsArray($result);
+        $this->assertArrayHasKey('filter', $result);
+        $this->assertIsArray($result['filter']);
+        $this->assertArrayHasKey('status', $result['filter']);
+        $this->assertArrayNotHasKey('Status', $result['filter']);
+        $this->assertSame('', $result['filter']['status']);
+        $this->assertArrayHasKey('deep_key', $result['filter']['nested']);
+        $this->assertArrayNotHasKey('Deep_Key!', $result['filter']['nested']);
+        $this->assertSame('hello', $result['filter']['nested']['deep_key']);
+    }
+
+    /**
      * Params are sourced from GET and POST only. $_COOKIE never pollutes the
      * bag, and POST takes precedence over GET on key collision.
      */

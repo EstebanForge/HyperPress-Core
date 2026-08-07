@@ -680,7 +680,11 @@ class Render
         $result = [];
 
         foreach ($arr as $k => $v) {
-            $result[$k] = is_array($v) ? $this->sanitizeArrayRecursive($v) : sanitize_text_field((string) $v);
+            $clean_key = sanitize_key((string) $k);
+            if ($clean_key === '') {
+                continue;
+            }
+            $result[$clean_key] = is_array($v) ? $this->sanitizeArrayRecursive($v) : sanitize_text_field((string) $v);
         }
 
         return $result;
