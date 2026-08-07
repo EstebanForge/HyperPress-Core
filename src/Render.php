@@ -671,6 +671,22 @@ class Render
     }
 
     /**
+     * Recursively sanitize an array of values. Scalar leaves go through
+     * sanitize_text_field; nested arrays recurse so deeply structured
+     * inputs do not silently lose data.
+     */
+    private function sanitizeArrayRecursive(array $arr): array
+    {
+        $result = [];
+
+        foreach ($arr as $k => $v) {
+            $result[$k] = is_array($v) ? $this->sanitizeArrayRecursive($v) : sanitize_text_field((string) $v);
+        }
+
+        return $result;
+    }
+
+    /**
      * Sanitize request parameters (hp_vals).
      * Applies WordPress sanitization functions to all request parameters and removes nonces.
      * Supports both single values and arrays (for multi-value form elements).
@@ -717,7 +733,7 @@ class Render
             // https://github.com/EstebanForge/HTMX-API-WP/discussions/8
             if (is_array($value)) {
                 // Sanitize each value
-                $sanitized_value = apply_filters('hyperpress/render/sanitize_param_array_value', array_map('sanitize_text_field', $value), $sanitized_key);
+                $sanitized_value = apply_filters('hyperpress/render/sanitize_param_array_value', $this->sanitizeArrayRecursive($value), $sanitized_key);
                 // Deprecated compatibility: hmapi/sanitize_param_array_value
                 $sanitized_value = apply_filters_deprecated(
                     'hmapi/sanitize_param_array_value',
@@ -799,16 +815,14 @@ class Render
             }
         }
 
+        $real_base_dir = realpath($base_dir);
+
         foreach ($extensions as $extension) {
             $potential_path = $base_dir . $template_name . $extension;
             $resolved_path = $this->sanitizeFullPath($potential_path);
 
-            if ($resolved_path) {
-                // Ensure the resolved path is within the allowed base directory.
-                $real_base_dir = realpath($base_dir);
-                if ($real_base_dir && (str_starts_with($resolved_path, $real_base_dir . DIRECTORY_SEPARATOR) || $resolved_path === $real_base_dir)) {
-                    return $resolved_path;
-                }
+            if ($resolved_path && $real_base_dir && (str_starts_with($resolved_path, $real_base_dir . DIRECTORY_SEPARATOR) || $resolved_path === $real_base_dir)) {
+                return $resolved_path;
             }
         }
 

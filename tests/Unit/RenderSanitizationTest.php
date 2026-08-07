@@ -135,6 +135,18 @@ class RenderSanitizationTest extends TestCase
     }
 
     /**
+     * Nested arrays must be sanitized recursively so inner values survive
+     * instead of being silently lost. Fails on the one-level-deep code;
+     * passes after recursive sanitization.
+     */
+    public function testNestedArrayValuesAreSanitizedRecursively(): void
+    {
+        $result = $this->sanitizeParams(['matrix' => [['<b>x</b>'], ['<i>y</br>']]]);
+
+        $this->assertSame(['matrix' => [['x'], ['y']]], $result);
+    }
+
+    /**
      * Nonces are stripped from the bag passed to templates.
      */
     public function testNoncesAreRemoved(): void
