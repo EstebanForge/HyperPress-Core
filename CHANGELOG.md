@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.5] - 2026-08-17
+
+### Added
+- **Opt-in strict template mode for the `/wp-html/v1/` render endpoint.** By design the endpoint renders any template shipped in the registered template directories, which keeps third-party adoption friction low but leaves authorization to per-template `hp_validate_request()` calls. Strict mode closes that fail-open default for deployments that want it, without breaking existing sites: it is OFF by default and enabled with `add_filter('hyperpress/render/strict_mode', '__return_true')`. Output with the filter off is unchanged; the only default-path difference is one additional no-op `apply_filters('hyperpress/render/strict_mode')` call per render. When enabled, a template loads only if explicitly registered — namespaced templates via their existing `hyperpress/render/register_template_path` registration (already an explicit opt-in), non-namespaced theme-relative templates via the new `hyperpress/render/registered_templates` allowlist (exact-name match, no prefix matching). Unregistered requests receive a dedicated "Template Not Registered" page (also customizable through `hyperpress/render/invalid_route_output`, error type `template-not-registered`). The decision logic lives in the pure `Render::templateMatchesRegistration()` so the security contract is unit-tested directly. See docs/security.md, "Strict Template Mode".
+
+### Security
+- Mitigation for audit finding M1 (docs/SECURITY-AUDIT.md in the dev environment): unauthenticated GET rendering of unregistered templates. Default behavior intentionally unchanged.
+
 ## [1.5.4] - 2026-08-11
 
 ### Fixed
