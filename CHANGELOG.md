@@ -1,10 +1,5 @@
 # Changelog
 
-## [1.5.6] - 2026-08-17
-
-### Security
-- **Log filename hash upgraded, based on the WooCommerce 8.9+ algorithm** (`Logging\FileV2\File::generate_hash`, hashing step): the filename suffix is now `hash_hmac('md5', $file_id, AUTH_SALT)` over the file id (`source-Y-m-d`) instead of `wp_hash($source)` over the bare source. The unguessable URL suffix now rotates with each daily file. Storage stays in the shared stack log directory `uploads/hyperpress-logs/` (also used by HyperFields, by design), with rotation, `.htaccess`/`index.html` protection, and append semantics unchanged. Fallback key literal covers writes before WordPress loads salts; no current caller runs that early. Same change as HyperFields 1.5.6 (the Log classes are kept in lockstep). Addresses audit finding M2 residual risk.
-
 ## [1.5.5] - 2026-08-17
 
 ### Added
@@ -12,6 +7,11 @@
 
 ### Security
 - Mitigation for audit finding M1 (docs/SECURITY-AUDIT.md in the dev environment): unauthenticated GET rendering of unregistered templates. Default behavior intentionally unchanged.
+- **HyperPress option imports now run through field sanitizers.** The options page registers a `hyperfields/import/sanitize_fields` provider (HyperFields 1.5.5 seam) so Data Tools imports of `hyperpress_options` sanitize every defined field through `Field::sanitizeValue()` instead of trusting the uploaded file's self-attested schema. Addresses audit finding L3 for this plugin's option group.
+- **`hp_is_rate_limited()` documented as best-effort.** WordPress has no built-in atomic read-modify-write over transients, so the counter can under-count under concurrent requests. The helper's docblock now states the guarantee (approximate abuse protection, not a hard limit) and points at atomic object-cache stores for callers needing a hard limit. Addresses audit finding L5 as documented best-effort, per owner decision.
+- **Legacy `hxwp_nonce` verification now warns.** `hp_validate_request()` still accepts the legacy nonce action for old clients, but every legacy-verified request emits a `_doing_it_wrong()` deprecation notice pointing at `hyperpress_nonce`, and fires a `hyperpress/nonce/legacy_verified` action for custom logging. Current-action verification warns nothing; the notice is filterable off via `hyperpress/nonce/legacy_deprecated_notice`. Addresses audit finding L8 (removal now has a migration path).
+- **`include-vals` htmx extension documented as evaluating attribute content.** The upstream extension uses `eval()` on the `include-vals` attribute by design; the extension's description on the options page now carries an explicit caution (never user-influenced attribute values, keep disabled on untrusted sites). The extension remains opt-in and off by default. Addresses audit finding L7 as an upstream-design accepted risk, documented.
+- **Log filename hash upgraded, based on the WooCommerce 8.9+ algorithm** (`Logging\FileV2\File::generate_hash`, hashing step): the filename suffix is now `hash_hmac('md5', $file_id, AUTH_SALT)` over the file id (`source-Y-m-d`) instead of `wp_hash($source)` over the bare source. The unguessable URL suffix now rotates with each daily file. Storage stays in the shared stack log directory `uploads/hyperpress-logs/` (also used by HyperFields, by design), with rotation, `.htaccess`/`index.html` protection, and append semantics unchanged. Fallback key literal covers writes before WordPress loads salts; no current caller runs that early. Same change as HyperFields 1.5.5 (the Log classes are kept in lockstep). Addresses audit finding M2 residual risk.
 
 ## [1.5.4] - 2026-08-11
 
