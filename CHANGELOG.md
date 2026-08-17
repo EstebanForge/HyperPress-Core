@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.5.6] - 2026-08-17
+
+### Security
+- **Log filename hash upgraded, based on the WooCommerce 8.9+ algorithm** (`Logging\FileV2\File::generate_hash`, hashing step): the filename suffix is now `hash_hmac('md5', $file_id, AUTH_SALT)` over the file id (`source-Y-m-d`) instead of `wp_hash($source)` over the bare source. The unguessable URL suffix now rotates with each daily file. Storage stays in the shared stack log directory `uploads/hyperpress-logs/` (also used by HyperFields, by design), with rotation, `.htaccess`/`index.html` protection, and append semantics unchanged. Fallback key literal covers writes before WordPress loads salts; no current caller runs that early. Same change as HyperFields 1.5.6 (the Log classes are kept in lockstep). Addresses audit finding M2 residual risk.
+
 ## [1.5.5] - 2026-08-17
 
 ### Added
