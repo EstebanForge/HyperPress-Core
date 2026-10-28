@@ -1,9 +1,12 @@
 # Changelog
 
-## [Unreleased]
+## [1.6.5] - 2026-10-28
 
 ### Added
 - **CSS `.hp-*` class aliases.** Aliased `.hp-*` selectors alongside `.hyperpress-*` in `assets/css/admin.css` (`.hp-options-wrap`, `.hp-api-endpoint-box`, `.hp-fields-group`, `.hp-field-row`, etc.) and emitted dual `.hp-* hyperpress-*` classes on admin markup and hypermedia demo templates.
+
+### Changed
+- **HyperFields and HyperBlocks constraints.** Required `estebanforge/hyperfields` and `estebanforge/hyperblocks` with `*` constraint.
 
 ### Fixed
 - **Demo template nonce verification.** `hypermedia/htmx-demo.hp.php` now verifies canonical `hyperpress_nonce` in addition to legacy `api-for-htmx_nonce`.
