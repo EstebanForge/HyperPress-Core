@@ -1,5 +1,13 @@
 # Changelog
 
+## [Unreleased]
+
+### Added
+- **CSS `.hp-*` class aliases.** Aliased `.hp-*` selectors alongside `.hyperpress-*` in `assets/css/admin.css` (`.hp-options-wrap`, `.hp-api-endpoint-box`, `.hp-fields-group`, `.hp-field-row`, etc.) and emitted dual `.hp-* hyperpress-*` classes on admin markup and hypermedia demo templates.
+
+### Fixed
+- **Demo template nonce verification.** `hypermedia/htmx-demo.hp.php` now verifies canonical `hyperpress_nonce` in addition to legacy `api-for-htmx_nonce`.
+
 ## [1.6.4] - 2026-09-25
 
 ### Changed
