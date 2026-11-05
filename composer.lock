@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "491569262d0e30c318ce427157f11fe0",
+    "content-hash": "322ccab49de1333503fe73732cf933cc",
     "packages": [
         {
             "name": "estebanforge/hyperblocks",
